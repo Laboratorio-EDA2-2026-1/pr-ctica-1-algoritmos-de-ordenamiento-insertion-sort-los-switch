@@ -21,9 +21,40 @@
  */
 
 void sort_matrix(int **matrix, int n) {
-    // TODO: Implementa aquí el algoritmo.
-    // Necesitarás el método de inserción,
-    // pero recuerda aplicar la regla de mover toda la columna.
+    int dimensionMatrix = n * n;
+    int *matrixTemp = malloc(dimensionMatrix * sizeof(int));
+    if (matrixTemp == NULL) {
+        // Manejar error de memoria
+        return;
+    }
+
+    // Copiar datos de la matriz a matrixTemp
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrixTemp[i * n + j] = matrix[i][j];
+        }
+    }
+
+    // Ordenar matrixTemp usando inserción
+    for (int i = 1; i < dimensionMatrix; i++) {
+        int key = matrixTemp[i];
+        int j = i - 1;
+
+        while (j >= 0 && matrixTemp[j] > key) {
+            matrixTemp[j + 1] = matrixTemp[j];
+            j--;
+        }
+        matrixTemp[j + 1] = key;
+    }
+
+    // Copiar datos ordenados de regreso a matrix
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = matrixTemp[i * n + j];
+        }
+    }
+
+    free(matrixTemp);
 }
 
 int main() {
